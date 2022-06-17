@@ -5,7 +5,7 @@ const Settings: LayoutSettings & {
   logo?: string;
 } = {
   navTheme: "dark",
-  // 拂晓蓝
+  // dawn blue
   primaryColor: "#1890ff",
   layout: "mix",
   contentWidth: "Fluid",

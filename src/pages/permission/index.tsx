@@ -95,7 +95,7 @@ const TableList = () => {
     setAddBtnblur();
     setVisible(false);
 
-    const hide = message.loading("正在添加/更新");
+    const hide = message.loading("Hozzáadás/Megújítás");
     try {
       if (values.id === 0) {
         await addProject(values);
@@ -105,13 +105,13 @@ const TableList = () => {
 
       hide();
 
-      message.success("操作成功");
+      message.success("Sikeres művelet");
       refetch();
 
       return true;
     } catch (error) {
       hide();
-      message.error("操作失败请重试！");
+      message.error("A művelet nem sikerült, próbálja újra!");
       return false;
     }
   };
@@ -121,16 +121,16 @@ const TableList = () => {
    * @param selectedRows
    */
   const handleRemove = async (selectedRows: API.Project[]) => {
-    const hide = message.loading("正在删除");
+    const hide = message.loading("Törlés");
     if (!selectedRows) return true;
     try {
       await batchDelete(selectedRows.map((row) => row.id));
       hide();
-      message.success("删除成功，即将刷新");
+      message.success("Sikeresen törölve, hamarosan frissül");
       return true;
     } catch (error) {
       hide();
-      message.error("删除失败，请重试");
+      message.error("A törlés nem sikerült, próbálkozzon újra");
       return false;
     }
   };
@@ -139,7 +139,7 @@ const TableList = () => {
     {
       title: "title",
       dataIndex: "name",
-      tip: "项目名称是唯一的 key",
+      tip: "A projekt neve egyedi kulcs",
       search: {
         transform: (value) => {
           return {
@@ -191,10 +191,10 @@ const TableList = () => {
           onClick={(e) => {
             e.preventDefault();
             Modal.confirm({
-              title: "删除項目",
-              content: "确定删除该項目吗？",
-              okText: "确认",
-              cancelText: "取消",
+              title: "elem törlése",
+              content: "Biztosan törli ezt az elemet?",
+              okText: "Megerősít",
+              cancelText: "Mégse",
               onOk: async () => {
                 await handleRemove([{ ...record }]);
                 setSelectedRows([]);
@@ -260,10 +260,10 @@ const TableList = () => {
             <div>
               <LocaleFormatter
                 id="app.project.chosen"
-                defaultMessage="已选择"
+                defaultMessage="Választott"
               />{" "}
               <a style={{ fontWeight: 600 }}>{selectedRowsState.length}</a>{" "}
-              <LocaleFormatter id="app.project.item" defaultMessage="项" />
+              <LocaleFormatter id="app.project.item" defaultMessage="Elem" />
             </div>
           }
         >

@@ -4,12 +4,10 @@ This Starter utilizes React, Recoil, React Query, React Hooks, Typescript, Axios
 
 ## [中文文档](./README_ZH.md)
 
-
 ## Screenshot
 
 ![](./screenshot1.png)
 ![](./screenshot2.png)
-
 
 ## Installation
 
@@ -25,8 +23,8 @@ Clone this repo and install all dependencies
 
 ## Development
 
-``` 
-yarn dev 
+```
+yarn dev
 ```
 
 ## Build

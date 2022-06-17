@@ -5,85 +5,85 @@ sidemenu: false
 
 # Ant Design Pro
 
-这里列举了 Pro 中所有用到的组件，这些组件不适合作为组件库，但是在业务中却真实需要。所以我们准备了这个文档，来指导大家是否需要使用这个组件。
+All the components used in Pro are listed here. These components are not suitable as component libraries, but are really needed in business. So we have prepared this document to guide you whether you need to use this component.
 
-## Footer 页脚组件
+## Footer component
 
-这个组件自带了一些 Pro 的配置的，你一般都需要改掉它的信息。
+This component comes with some Pro configuration, you generally need to change its information.
 
 ```tsx
 /**
  * background: '#f0f2f5'
  */
-import React from 'react';
-import Footer from '@/components/Footer';
+import React from "react";
+import Footer from "@/components/Footer";
 
 export default () => <Footer />;
 ```
 
-## HeaderDropdown 头部下拉列表
+## HeaderDropdown
 
-HeaderDropdown 是 antd Dropdown 的封装，但是增加了移动端的特殊处理，用法也是相同的。
+HeaderDropdown antd Dropdown
 
 ```tsx
 /**
  * background: '#f0f2f5'
  */
-import { Button, Menu } from 'antd';
-import React from 'react';
-import HeaderDropdown from '@/components/HeaderDropdown';
+import { Button, Menu } from "antd";
+import React from "react";
+import HeaderDropdown from "@/components/HeaderDropdown";
 
 export default () => {
   const menuHeaderDropdown = (
     <Menu selectedKeys={[]}>
-      <Menu.Item key="center">个人中心</Menu.Item>
-      <Menu.Item key="settings">个人设置</Menu.Item>
+      <Menu.Item key="center">személyes központ</Menu.Item>
+      <Menu.Item key="settings">Személyes beállítások</Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="logout">退出登录</Menu.Item>
+      <Menu.Item key="logout">kijelentkezés</Menu.Item>
     </Menu>
   );
   return (
     <HeaderDropdown overlay={menuHeaderDropdown}>
-      <Button>hover 展示菜单</Button>
+      <Button>hover menü megjelenítése</Button>
     </HeaderDropdown>
   );
 };
 ```
 
-## HeaderSearch 头部搜索框
+## HeaderSearch
 
-一个带补全数据的输入框，支持收起和展开 Input
+An input box with completed data, which supports collapsing and expanding Input
 
 ```tsx
 /**
  * background: '#f0f2f5'
  */
-import { Button, Menu } from 'antd';
-import React from 'react';
-import HeaderSearch from '@/components/HeaderSearch';
+import { Button, Menu } from "antd";
+import React from "react";
+import HeaderSearch from "@/components/HeaderSearch";
 
 export default () => {
   return (
     <HeaderSearch
-      placeholder="站内搜索"
+      placeholder="Site Search"
       defaultValue="umi ui"
       options={[
-        { label: 'Ant Design Pro', value: 'Ant Design Pro' },
+        { label: "Ant Design Pro", value: "Ant Design Pro" },
         {
-          label: 'Ant Design',
-          value: 'Ant Design',
+          label: "Ant Design",
+          value: "Ant Design",
         },
         {
-          label: 'Pro Table',
-          value: 'Pro Table',
+          label: "Pro Table",
+          value: "Pro Table",
         },
         {
-          label: 'Pro Layout',
-          value: 'Pro Layout',
+          label: "Pro Layout",
+          value: "Pro Layout",
         },
       ]}
       onSearch={(value) => {
-        console.log('input', value);
+        console.log("input", value);
       }}
     />
   );
@@ -92,78 +92,85 @@ export default () => {
 
 ### API
 
-| 参数            | 说明                               | 类型                         | 默认值 |
-| --------------- | ---------------------------------- | ---------------------------- | ------ |
-| value           | 输入框的值                         | `string`                     | -      |
-| onChange        | 值修改后触发                       | `(value?: string) => void`   | -      |
-| onSearch        | 查询后触发                         | `(value?: string) => void`   | -      |
-| options         | 选项菜单的的列表                   | `{label,value}[]`            | -      |
-| defaultVisible  | 输入框默认是否显示，只有第一次生效 | `boolean`                    | -      |
-| visible         | 输入框是否显示                     | `boolean`                    | -      |
-| onVisibleChange | 输入框显示隐藏的回调函数           | `(visible: boolean) => void` | -      |
+| parameter       | illustrate                                                                         | type                         | Defaults |
+| --------------- | ---------------------------------------------------------------------------------- | ---------------------------- | -------- |
+| value           | the value of the input box                                                         | `string`                     | -        |
+| onChange        | Triggered after the value is modified                                              | `(value?: string) => void`   | -        |
+| onSearch        | Triggered after query                                                              | `(value?: string) => void`   | -        |
+| options         | list of options menu                                                               | `{label,value}[]`            | -        |
+| defaultVisible  | Whether the input box is displayed by default, only the first time it takes effect | `boolean`                    | -        |
+| visible         | Whether the input box is displayed                                                 | `boolean`                    | -        |
+| onVisibleChange | The input box shows the hidden callback function                                   | `(visible: boolean) => void` | -        |
 
-## NoticeIcon 通知工具
+## NoticeIcon
 
-通知工具提供一个展示多种通知信息的界面。
+The Notification Tool provides an interface that displays various notification messages.
 
 ```tsx
 /**
  * background: '#f0f2f5'
  */
-import { message } from 'antd';
-import React from 'react';
-import NoticeIcon from '@/components/NoticeIcon/NoticeIcon';
+import { message } from "antd";
+import React from "react";
+import NoticeIcon from "@/components/NoticeIcon/NoticeIcon";
 
 export default () => {
   const list = [
     {
-      id: '000000001',
-      avatar: 'https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png',
-      title: '你收到了 14 份新周报',
-      datetime: '2017-08-09',
-      type: 'notification',
+      id: "000000001",
+      avatar:
+        "https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png",
+      title: "14 új hetilapot kapott",
+      datetime: "2017-08-09",
+      type: "notification",
     },
     {
-      id: '000000002',
-      avatar: 'https://gw.alipayobjects.com/zos/rmsportal/OKJXDXrmkNshAMvwtvhu.png',
-      title: '你推荐的 曲妮妮 已通过第三轮面试',
-      datetime: '2017-08-08',
-      type: 'notification',
+      id: "000000002",
+      avatar:
+        "https://gw.alipayobjects.com/zos/rmsportal/OKJXDXrmkNshAMvwtvhu.png",
+      title:
+        "Az Ön által ajánlott Qu Nini túljutott az interjúk harmadik fordulóján",
+      datetime: "2017-08-08",
+      type: "notification",
     },
   ];
   return (
     <NoticeIcon
       count={10}
       onItemClick={(item) => {
-        message.info(`${item.title} 被点击了`);
+        message.info(`${item.title} rákattintottak`);
       }}
-      onClear={(title: string, key: string) => message.info('点击了清空更多')}
+      onClear={(title: string, key: string) =>
+        message.info("Kattintson a továbbiak törléséhez")
+      }
       loading={false}
-      clearText="清空"
-      viewMoreText="查看更多"
-      onViewMore={() => message.info('点击了查看更多')}
+      clearText="üres"
+      viewMoreText="további információk"
+      onViewMore={() =>
+        message.info("Kattints ide a további információk megtekintéséhez")
+      }
       clearClose
     >
       <NoticeIcon.Tab
         tabKey="notification"
         count={2}
         list={list}
-        title="通知"
-        emptyText="你已查看所有通知"
+        title="Értesítés"
+        emptyText="Megnézte az összes értesítést"
         showViewMore
       />
       <NoticeIcon.Tab
         tabKey="message"
         count={2}
         list={list}
-        title="消息"
-        emptyText="您已读完所有消息"
+        title="információ"
+        emptyText="Az összes üzenetet elolvasta"
         showViewMore
       />
       <NoticeIcon.Tab
         tabKey="event"
-        title="待办"
-        emptyText="你已完成所有待办"
+        title="Közelgő"
+        emptyText="mindennel végeztél"
         count={2}
         list={list}
         showViewMore
@@ -175,36 +182,36 @@ export default () => {
 
 ### NoticeIcon API
 
-| 参数 | 说明 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| count | 有多少未读通知 | `number` | - |
-| bell | 铃铛的图表 | `ReactNode` | - |
-| onClear | 点击清空数据按钮 | `(tabName: string, tabKey: string) => void` | - |
-| onItemClick | 未读消息列被点击 | `(item: API.NoticeIconData, tabProps: NoticeIconTabProps) => void` | - |
-| onViewMore | 查看更多的按钮点击 | `(tabProps: NoticeIconTabProps, e: MouseEvent) => void` | - |
-| onTabChange | 通知 Tab 的切换 | `(tabTile: string) => void;` | - |
-| popupVisible | 通知显示是否展示 | `boolean` | - |
-| onPopupVisibleChange | 通知信息显示隐藏的回调函数 | `(visible: boolean) => void` | - |
-| clearText | 清空按钮的文字 | `string` | - |
-| viewMoreText | 查看更多的按钮文字 | `string` | - |
-| clearClose | 展示清空按钮 | `boolean` | - |
-| emptyImage | 列表为空时的兜底展示 | `ReactNode` | - |
+| parameter            | illustrate                                          | type                                                               | Defaults |
+| -------------------- | --------------------------------------------------- | ------------------------------------------------------------------ | -------- |
+| count                | How many unread notifications there are             | `number`                                                           | -        |
+| bell                 | bell diagram                                        | `ReactNode`                                                        | -        |
+| onClear              | Click the Clear Data button                         | `(tabName: string, tabKey: string) => void`                        | -        |
+| onItemClick          | Unread message column is clicked                    | `(item: API.NoticeIconData, tabProps: NoticeIconTabProps) => void` | -        |
+| onViewMore           | View more button click                              | `(tabProps: NoticeIconTabProps, e: MouseEvent) => void`            | -        |
+| onTabChange          | Notify tab switching                                | `(tabTile: string) => void;`                                       | -        |
+| popupVisible         | Whether the notification is displayed or not        | `boolean`                                                          | -        |
+| onPopupVisibleChange | Notification message shows hidden callback function | `(visible: boolean) => void`                                       | -        |
+| clearText            | clear button text                                   | `string`                                                           | -        |
+| viewMoreText         | See more button text                                | `string`                                                           | -        |
+| clearClose           | Show clear button                                   | `boolean`                                                          | -        |
+| emptyImage           | Bottom line when the list is empty                  | `ReactNode`                                                        | -        |
 
 ### NoticeIcon.Tab API
 
-| 参数         | 说明               | 类型                                 | 默认值 |
-| ------------ | ------------------ | ------------------------------------ | ------ |
-| count        | 有多少未读通知     | `number`                             | -      |
-| title        | 通知 Tab 的标题    | `ReactNode`                          | -      |
-| showClear    | 展示清除按钮       | `boolean`                            | `true` |
-| showViewMore | 展示加载更         | `boolean`                            | `true` |
-| tabKey       | Tab 的唯一 key     | `string`                             | -      |
-| onClick      | 子项的单击事件     | `(item: API.NoticeIconData) => void` | -      |
-| onClear      | 清楚按钮的点击     | `()=>void`                           | -      |
-| emptyText    | 为空的时候测试     | `()=>void`                           | -      |
-| viewMoreText | 查看更多的按钮文字 | `string`                             | -      |
-| onViewMore   | 查看更多的按钮点击 | `( e: MouseEvent) => void`           | -      |
-| list         | 通知信息的列表     | `API.NoticeIconData`                 | -      |
+| parameter    | illustrate                              | type                                 | Defaults |
+| ------------ | --------------------------------------- | ------------------------------------ | -------- |
+| count        | How many unread notifications there are | `number`                             | -        |
+| title        | Title of notification tab               | `ReactNode`                          | -        |
+| showClear    | Show clear button                       | `boolean`                            | `true`   |
+| showViewMore | show loading                            | `boolean`                            | `true`   |
+| tabKey       | Unique key for Tab                      | `string`                             | -        |
+| onClick      | Child's click event                     | `(item: API.NoticeIconData) => void` | -        |
+| onClear      | Clear button click                      | `()=>void`                           | -        |
+| emptyText    | test when empty                         | `()=>void`                           | -        |
+| viewMoreText | See more button text                    | `string`                             | -        |
+| onViewMore   | View more button click                  | `( e: MouseEvent) => void`           | -        |
+| list         | list of notification messages           | `API.NoticeIconData`                 | -        |
 
 ### NoticeIconData
 
@@ -226,34 +233,37 @@ export interface NoticeIconData {
 
 ## RightContent
 
-RightContent 是以上几个组件的组合，同时新增了 plugins 的 `SelectLang` 插件。
+RightContent is a combination of the above components, and the `SelectLang` plugin of plugins has been added.
 
 ```tsx | pure
 <Space>
   <HeaderSearch
-    placeholder="站内搜索"
+    placeholder="Site Search"
     defaultValue="umi ui"
     options={[
-      { label: <a href="https://umijs.org/zh/guide/umi-ui.html">umi ui</a>, value: 'umi ui' },
+      {
+        label: <a href="https://umijs.org/zh/guide/umi-ui.html">umi ui</a>,
+        value: "umi ui",
+      },
       {
         label: <a href="next.ant.design">Ant Design</a>,
-        value: 'Ant Design',
+        value: "Ant Design",
       },
       {
         label: <a href="https://protable.ant.design/">Pro Table</a>,
-        value: 'Pro Table',
+        value: "Pro Table",
       },
       {
         label: <a href="https://prolayout.ant.design/">Pro Layout</a>,
-        value: 'Pro Layout',
+        value: "Pro Layout",
       },
     ]}
   />
-  <Tooltip title="使用文档">
+  <Tooltip title="Dokumentációval végzett munka">
     <span
       className={styles.action}
       onClick={() => {
-        window.location.href = 'https://pro.ant.design/docs/getting-started';
+        window.location.href = "https://pro.ant.design/docs/getting-started";
       }}
     >
       <QuestionCircleOutlined />

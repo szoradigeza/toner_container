@@ -6,19 +6,19 @@ interface MenuItem {
     zh_CN: string;
     en_US: string;
   };
-  /** 图标名称
+  /** Icon name
    *
-   * 子子菜单不需要图标
+   * Sub-sub-menus don't need icons
    */
   icon?: string;
-  /** 菜单id */
+  /** menu id */
   key: string;
-  /** 菜单路由 */
+  /** menu routing */
   path: string;
-  /** 子菜单 */
+  /** Submenu */
   children?: MenuItem[];
 }
 
-export type MenuChild = Omit<MenuItem, 'children'>;
+export type MenuChild = Omit<MenuItem, "children">;
 
 export type MenuList = MenuItem[];

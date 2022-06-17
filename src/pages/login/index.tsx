@@ -42,24 +42,29 @@ const LoginForm: FC = () => {
         <div className={styles.header}>
           <Link to="/">
             <LogoSvg className={styles.logo} />
-            <span className={styles.title}>项目管理</span>
+            <span className={styles.title}>projektmenedzsment</span>
           </Link>
         </div>
-        <div className={styles.desc}>全新技术栈(React\Recoil\React Query\React Hooks\Vite)的后台管理系统</div>
+        <div className={styles.desc}>
+          Vadonatúj technológiai halom(React\Recoil\React Query\React
+          Hooks\Vite)háttérmenedzsment rendszer
+        </div>
       </div>
       <div className={styles.main}>
         <Form<LoginParams> onFinish={onFinished} initialValues={initialValues}>
           <Form.Item
             name="username"
-            rules={[{ required: true, message: "请输入用户名！" }]}
+            rules={[
+              { required: true, message: "kérlek add meg a felhasználónevet!" },
+            ]}
           >
-            <Input size="large" placeholder="用户名" />
+            <Input size="large" placeholder="felhasználónév" />
           </Form.Item>
           <Form.Item
             name="password"
-            rules={[{ required: true, message: "请输入密码！" }]}
+            rules={[{ required: true, message: "Kérem írja be a jelszavát!" }]}
           >
-            <Input type="password" size="large" placeholder="密码" />
+            <Input type="password" size="large" placeholder="Jelszó" />
           </Form.Item>
           <Form.Item name="remember" valuePropName="checked">
             <Checkbox>记住用户</Checkbox>

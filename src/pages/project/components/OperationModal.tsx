@@ -54,7 +54,7 @@ const OperationModal: FC<OperationModalProps> = (props) => {
     }
   };
 
-  const modalFooter = { okText: "保存", onOk: handleSubmit, onCancel };
+  const modalFooter = { okText: "Megtartás", onOk: handleSubmit, onCancel };
 
   const getModalContent = () => {
     return (
@@ -87,7 +87,7 @@ const OperationModal: FC<OperationModalProps> = (props) => {
 
   return (
     <Modal
-      title={`项目${current ? "编辑" : "添加"}`}
+      title={`Project${current ? "Szerkesztés" : "Hozzáadás"}`}
       width={640}
       bodyStyle={{ padding: "28px 0 0" }}
       destroyOnClose
