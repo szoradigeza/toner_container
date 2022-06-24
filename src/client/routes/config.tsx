@@ -1,18 +1,18 @@
-import React, { FC } from "react";
-import { Route } from "react-router-dom";
-import { RouteProps } from "react-router";
-import PrivateRoute from "./pravateRoute";
+import React, { FC } from 'react';
+import { Route } from 'react-router-dom';
+import { RouteProps } from 'react-router';
+import PrivateRoute from './pravateRoute';
 
 export interface WrapperRouteProps extends RouteProps {
-  /** authorization？ */
-  auth?: boolean;
+    /** authorization？ */
+    auth?: boolean;
 }
 
 const WrapperRouteComponent: FC<WrapperRouteProps> = ({ auth, children }) => {
-  if (auth) {
-    return <PrivateRoute>{children}</PrivateRoute>;
-  }
-  return <>{children}</>;
+    if (auth) {
+        return <PrivateRoute>{children}</PrivateRoute>;
+    }
+    return <>{children}</>;
 };
 
 export default WrapperRouteComponent;

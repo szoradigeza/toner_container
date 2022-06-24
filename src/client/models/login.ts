@@ -1,22 +1,22 @@
 /** user's role */
-export type Role = "guest" | "admin";
+export type Role = 'guest' | 'admin';
 
 export interface LoginParams {
-  /** username */
-  username: string;
-  /** user password */
-  password: string;
+    /** username */
+    username: string;
+    /** user password */
+    password: string;
 }
 
 export interface LoginResult {
-  /** auth token */
-  token: string;
-  username: string;
-  role: Role;
+    /** auth token */
+    token: string;
+    username: string;
+    role: Role;
 }
 
 export interface LogoutParams {
-  token: string;
+    token: string;
 }
 
 export interface LogoutResult {}

@@ -6,37 +6,36 @@ import { Role } from './login';
 export type Locale = 'zh-cn' | 'en-us';
 
 export interface CurrentUserResult {
-  username: string;
-  role: Role;
+    username: string;
+    role: Role;
 }
 
-
 export interface User {
-  username: string;
+    username: string;
 
-  /** menu list for init tagsView */
-  menuList: MenuChild[];
+    /** menu list for init tagsView */
+    menuList: MenuChild[];
 
-  /** login status */
-  logged: boolean;
+    /** login status */
+    logged: boolean;
 
-  role: Role;
+    role: Role;
 
-  /** user's device */
-  device: Device;
+    /** user's device */
+    device: Device;
 
-  /** menu collapsed status */
-  collapsed: boolean;
+    /** menu collapsed status */
+    collapsed: boolean;
 
-  /** notification count */
-  noticeCount: number;
+    /** notification count */
+    noticeCount: number;
 
-  /** user's language */
-  locale: Locale;
+    /** user's language */
+    locale: Locale;
 
-  /** Is first time to view the site ? */
-  newUser: boolean;
+    /** Is first time to view the site ? */
+    newUser: boolean;
 
-  settings: PureSettings;
-  avatar: string;
+    settings: PureSettings;
+    avatar: string;
 }

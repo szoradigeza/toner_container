@@ -11,17 +11,17 @@ import { zhCN_menu } from './menu';
 import { zhCN_project } from './project';
 
 const zh_CN = {
-  ...zhCN_account,
-  ...zhCN_avatorDropMenu,
-  ...zhCN_tagsViewDropMenu,
-  ...zhCN_title,
-  ...zhCN_globalTips,
-  ...zhCN_permissionRole,
-  ...zhCN_dashboard,
-  ...zhCN_guide,
-  ...zhCN_menu,
-  ...zhCN_project,
-  ...zhCN_documentation
+    ...zhCN_account,
+    ...zhCN_avatorDropMenu,
+    ...zhCN_tagsViewDropMenu,
+    ...zhCN_title,
+    ...zhCN_globalTips,
+    ...zhCN_permissionRole,
+    ...zhCN_dashboard,
+    ...zhCN_guide,
+    ...zhCN_menu,
+    ...zhCN_project,
+    ...zhCN_documentation
 };
 
 export default zh_CN;

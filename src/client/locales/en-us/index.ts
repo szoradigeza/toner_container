@@ -11,17 +11,17 @@ import { enUS_menu } from './menu';
 import { en_US_documentation } from './documentation';
 
 const en_US = {
-  ...enUS_account,
-  ...enUS_avatorDropMenu,
-  ...enUS_tagsViewDropMenu,
-  ...enUS_title,
-  ...enUS_globalTips,
-  ...enUS_permissionRole,
-  ...enUS_dashboard,
-  ...enUS_guide,
-  ...enUS_menu,
-  ...enUS_project,
-  ...en_US_documentation
+    ...enUS_account,
+    ...enUS_avatorDropMenu,
+    ...enUS_tagsViewDropMenu,
+    ...enUS_title,
+    ...enUS_globalTips,
+    ...enUS_permissionRole,
+    ...enUS_dashboard,
+    ...enUS_guide,
+    ...enUS_menu,
+    ...enUS_project,
+    ...en_US_documentation
 };
 
 export default en_US;

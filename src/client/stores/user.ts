@@ -1,7 +1,4 @@
-import {
-    atom,
-    selector,
-} from 'recoil';
+import { atom, selector } from 'recoil';
 
 import { LoginParams, Role } from '@/models/login';
 import { Locale, User } from '@/models/user';
@@ -10,10 +7,10 @@ import { getGlobalState } from '@/models';
 const initialState: User = {
     ...getGlobalState(),
     noticeCount: 0,
-    locale: (
-        localStorage.getItem('locale')! 
-        || (navigator.languages && navigator.languages[0]) 
-        || navigator.language ||'en-us') as Locale,
+    locale: (localStorage.getItem('locale')! ||
+        (navigator.languages && navigator.languages[0]) ||
+        navigator.language ||
+        'en-us') as Locale,
     newUser: JSON.parse(localStorage.getItem('newUser')!) ?? true,
     logged: false,
     menuList: [],
@@ -24,6 +21,5 @@ const initialState: User = {
 
 export const userState = atom({
     key: 'userState',
-    default: initialState,
+    default: initialState
 });
-
