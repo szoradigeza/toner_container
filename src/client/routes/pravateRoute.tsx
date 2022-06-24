@@ -3,8 +3,8 @@ import { Route, useNavigate } from "react-router-dom";
 import { Result, Button } from "antd";
 import { Navigate, RouteProps, useLocation } from "react-router";
 import { useRecoilState } from "recoil";
-import { userState } from "@/stores/user";
-import { useGetCurrentUser } from "@/api";
+import { userState } from "../stores/user";
+import { useGetCurrentUser } from "../api";
 import { createBrowserHistory } from "history";
 
 const PrivateRoute: FC<RouteProps> = ({ children }) => {

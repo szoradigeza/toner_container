@@ -1,15 +1,19 @@
-import { LocaleFormatter } from "@/locales";
+import { LocaleFormatter } from "../../locales";
 import { FooterToolbar, PageContainer } from "@ant-design/pro-layout";
 import type { ProColumns, ActionType } from "@ant-design/pro-table";
 import ProTable from "@ant-design/pro-table";
-import { Button, message, Modal } from "antd";
+import { Button, message, Modal, PaginationProps } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 
 import React, { useEffect, useRef, useState } from "react";
 import { findDOMNode } from "react-dom";
 import OperationModal from "./components/OperationModal";
-import { useCreate, useUpdate } from "@/api/request";
-import { useBatchDeleteProject, useGetProjects } from "@api";
+import {
+  useAddProject,
+  useBatchDeleteProject,
+  useGetProjects,
+  useUpdateProject,
+} from "@/api";
 
 const TableList = () => {
   const addBtn = useRef(null);
@@ -24,11 +28,11 @@ const TableList = () => {
 
   const [showDetail, setShowDetail] = useState<boolean>(false);
 
-  const [pagination, setPagination] = useState<{}>({
+  const [pagination, setPagination] = useState<Partial<PaginationProps>>({
     current: 1,
     pageSize: 10,
+    total: 0,
   });
-
   const actionRef = useRef<ActionType>();
   const [selectedRowsState, setSelectedRows] = useState<API.Project[]>([]);
 
@@ -37,8 +41,8 @@ const TableList = () => {
     filters
   );
 
-  const { mutateAsync } = useCreate<API.Project, API.Project>("/projects");
-  const { mutateAsync: update } = useUpdate<API.Project>("/projects");
+  const { mutateAsync } = useAddProject();
+  const { mutateAsync: update } = useUpdateProject();
   const { mutateAsync: batchDelete } = useBatchDeleteProject();
 
   useEffect(() => {
@@ -52,7 +56,7 @@ const TableList = () => {
 
   useEffect(() => {
     refetch();
-  }, [filters]);
+  }, [pagination.current, pagination.pageSize, filters]);
 
   const showModal = () => {
     setVisible(true);
@@ -95,7 +99,7 @@ const TableList = () => {
     setAddBtnblur();
     setVisible(false);
 
-    const hide = message.loading("Hozzáadás/Megújítás");
+    const hide = message.loading("Hozzáadás/Frissítés");
     try {
       if (values.id === 0) {
         await addProject(values);
@@ -105,7 +109,7 @@ const TableList = () => {
 
       hide();
 
-      message.success("Sikeres művelet");
+      message.success("A művelet sikeres!");
       refetch();
 
       return true;
@@ -125,6 +129,7 @@ const TableList = () => {
     if (!selectedRows) return true;
     try {
       await batchDelete(selectedRows.map((row) => row.id));
+      setPagination({ ...pagination, current: 1 });
       hide();
       message.success("Sikeresen törölve, hamarosan frissül");
       return true;
@@ -137,16 +142,10 @@ const TableList = () => {
 
   const columns: ProColumns<API.Project>[] = [
     {
-      title: "title",
+      title: "project",
       dataIndex: "name",
       tip: "A projekt neve egyedi kulcs",
-      search: {
-        transform: (value) => {
-          return {
-            filter: "name:eq:" + value,
-          };
-        },
-      },
+      sorter: true,
       render: (dom, entity) => {
         return (
           <a
@@ -161,19 +160,13 @@ const TableList = () => {
       },
     },
     {
-      title: "title",
+      title: "description",
       dataIndex: "description",
       valueType: "textarea",
-      search: {
-        transform: (value) => {
-          return {
-            filter: "description:eq:" + value,
-          };
-        },
-      },
+      sorter: true,
     },
     {
-      title: "title",
+      title: "operation",
       dataIndex: "option",
       valueType: "option",
       render: (_, record) => [
@@ -184,7 +177,7 @@ const TableList = () => {
             showEditModal(record);
           }}
         >
-          gloabal.tips.modify
+          modify
         </a>,
         <a
           key="delete"
@@ -193,8 +186,8 @@ const TableList = () => {
             Modal.confirm({
               title: "elem törlése",
               content: "Biztosan törli ezt az elemet?",
-              okText: "Megerősít",
-              cancelText: "Mégse",
+              okText: "megerősít",
+              cancelText: "Megszüntetés",
               onOk: async () => {
                 await handleRemove([{ ...record }]);
                 setSelectedRows([]);
@@ -203,7 +196,7 @@ const TableList = () => {
             });
           }}
         >
-          title: "title",
+          delete
         </a>,
       ],
     },
@@ -224,6 +217,10 @@ const TableList = () => {
         request={undefined}
         dataSource={projects}
         columns={columns}
+        pagination={pagination}
+        onChange={(pagination, filters, sorter) => {
+          setPagination(pagination);
+        }}
         rowSelection={{
           onChange: (_, selectedRows) => {
             setSelectedRows(selectedRows);
@@ -260,7 +257,7 @@ const TableList = () => {
             <div>
               <LocaleFormatter
                 id="app.project.chosen"
-                defaultMessage="Választott"
+                defaultMessage="választott"
               />{" "}
               <a style={{ fontWeight: 600 }}>{selectedRowsState.length}</a>{" "}
               <LocaleFormatter id="app.project.item" defaultMessage="Elem" />
