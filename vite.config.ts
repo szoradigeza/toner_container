@@ -33,6 +33,18 @@ export default ({ command }: { command: string }) => {
                 }
             ]
         },
+        server: {
+            hmr: true,
+            host: '0.0.0.0',
+            port: 3000,
+            proxy: {
+                '/api/v1/': {
+                    target: 'http://localhost:5000',
+                    rewrite: (path) => path.replace('/api/v1/', ''),
+                    changeOrigin: true
+                }
+            }
+        },
         optimizeDeps: {
             include: ['@ant-design/colors', '@ant-design/icons']
         },
@@ -47,14 +59,15 @@ export default ({ command }: { command: string }) => {
         // },
         plugins: [
             reactRefresh(),
-            svgr(),
-            viteMockServe({
-                mockPath: 'mock',
-                supportTs: true,
-                watchFiles: true,
-                localEnabled: command === 'serve',
-                logger: true
-            })
+            svgr()
+
+            // viteMockServe({
+            //     mockPath: 'mock',
+            //     supportTs: true,
+            //     watchFiles: true,
+            //     localEnabled: command === 'serve',
+            //     logger: true
+            // })
             // styleImport({
             //   libs: [
             //     {

@@ -27,50 +27,48 @@ const IconMap: { [key: string]: React.ReactNode } = {
 
 const LayoutPage: FC = ({ children }) => {
     const { data: menuList } = {
-        data: {
-            menuList: [
-                {
-                    path: '/dashboard',
-                    name: 'Panel',
-                    locale: 'menu.dashboard',
-                    icon: 'heart'
-                },
-                {
-                    path: '/project',
-                    name: 'Project',
-                    icon: 'smile',
-                    locale: 'menu.project',
-                    children: [
-                        {
-                            path: '/project/list',
-                            name: 'Project List',
-                            locale: 'menu.project.list',
-                            icon: 'smile'
-                        }
-                    ]
-                },
-                {
-                    path: '/permission',
-                    name: 'permission',
-                    locale: 'menu.permission',
-                    icon: 'smile',
-                    children: [
-                        {
-                            path: '/permission/list',
-                            name: 'permission list',
-                            locale: 'menu.permission.list',
-                            icon: 'smile'
-                        }
-                    ]
-                },
-                {
-                    path: '/404',
-                    name: '404',
-                    locale: 'menu.notfound',
-                    icon: 'frown'
-                }
-            ]
-        }
+        data: [
+            {
+                path: '/dashboard',
+                name: 'Panel',
+                locale: 'menu.dashboard',
+                icon: 'heart'
+            },
+            {
+                path: '/project',
+                name: 'Project',
+                icon: 'smile',
+                locale: 'menu.project',
+                children: [
+                    {
+                        path: '/project/list',
+                        name: 'Project List',
+                        locale: 'menu.project.list',
+                        icon: 'smile'
+                    }
+                ]
+            },
+            {
+                path: '/permission',
+                name: 'permission',
+                locale: 'menu.permission',
+                icon: 'smile',
+                children: [
+                    {
+                        path: '/permission/list',
+                        name: 'permission list',
+                        locale: 'menu.permission.list',
+                        icon: 'smile'
+                    }
+                ]
+            },
+            {
+                path: '/404',
+                name: '404',
+                locale: 'menu.notfound',
+                icon: 'frown'
+            }
+        ]
     };
 
     const [user, setUser] = useRecoilState(userState);
