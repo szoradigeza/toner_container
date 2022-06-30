@@ -12,7 +12,7 @@ const Settings: LayoutSettings & {
     fixedHeader: false,
     fixSiderbar: true,
     colorWeak: false,
-    title: 'kicsi a pocsod szucs',
+    title: 'Győr BC',
     pwa: false,
     iconfontUrl: ''
 };
