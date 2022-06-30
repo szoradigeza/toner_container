@@ -25,7 +25,7 @@ const LoginForm: FC = () => {
 
     const onFinished = async (form: LoginParams) => {
         const result = await loginMutation.mutateAsync(form);
-        console.log('result: ', result);
+        console.log(result.token);
 
         if (result) {
             localStorage.setItem('token', result.token);

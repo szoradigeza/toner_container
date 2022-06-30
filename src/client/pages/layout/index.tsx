@@ -26,7 +26,52 @@ const IconMap: { [key: string]: React.ReactNode } = {
 };
 
 const LayoutPage: FC = ({ children }) => {
-    const { data: menuList, error } = useGetCurrentMenus();
+    const { data: menuList } = {
+        data: {
+            menuList: [
+                {
+                    path: '/dashboard',
+                    name: 'Panel',
+                    locale: 'menu.dashboard',
+                    icon: 'heart'
+                },
+                {
+                    path: '/project',
+                    name: 'Project',
+                    icon: 'smile',
+                    locale: 'menu.project',
+                    children: [
+                        {
+                            path: '/project/list',
+                            name: 'Project List',
+                            locale: 'menu.project.list',
+                            icon: 'smile'
+                        }
+                    ]
+                },
+                {
+                    path: '/permission',
+                    name: 'permission',
+                    locale: 'menu.permission',
+                    icon: 'smile',
+                    children: [
+                        {
+                            path: '/permission/list',
+                            name: 'permission list',
+                            locale: 'menu.permission.list',
+                            icon: 'smile'
+                        }
+                    ]
+                },
+                {
+                    path: '/404',
+                    name: '404',
+                    locale: 'menu.notfound',
+                    icon: 'frown'
+                }
+            ]
+        }
+    };
 
     const [user, setUser] = useRecoilState(userState);
     const [pathname, setPathname] = useState('/welcome');
@@ -126,13 +171,11 @@ const LayoutPage: FC = ({ children }) => {
                         style={{
                             cursor: 'pointer',
                             fontSize: '16px'
-                        }}
-                    >
+                        }}>
                         <span id="sidebar-trigger">{collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}</span>
                     </div>
                 );
-            }}
-        >
+            }}>
             <Outlet />
         </ProLayout>
     );
