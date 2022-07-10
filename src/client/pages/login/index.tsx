@@ -44,33 +44,12 @@ const Login = () => {
                     minHeight: '100%'
                 }}>
                 <Container maxWidth="sm">
-                    <Button component="a">Dashboard</Button>
                     <form onSubmit={formik.handleSubmit}>
-                        <Box sx={{ my: 3 }}>
-                            <Typography color="textPrimary" variant="h4">
-                                Sign in
-                            </Typography>
-                            <Typography color="textSecondary" gutterBottom variant="body2">
-                                Sign in on the internal platform
-                            </Typography>
-                        </Box>
-                        <Grid container spacing={3}>
-                            <Grid item xs={12} md={6}>
-                                <Button>Login with Facebook</Button>
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <Button>Login with Google</Button>
-                            </Grid>
-                        </Grid>
                         <Box
                             sx={{
                                 pb: 1,
                                 pt: 3
-                            }}>
-                            <Typography align="center" color="textSecondary" variant="body1">
-                                or login with email address
-                            </Typography>
-                        </Box>
+                            }}></Box>
                         <TextField
                             error={Boolean(formik.touched.username && formik.errors.username)}
                             fullWidth
@@ -107,9 +86,6 @@ const Login = () => {
                                 Sign In Now
                             </Button>
                         </Box>
-                        <Typography color="textSecondary" variant="body2">
-                            Don&apos;t have an account? <Button>Sign Up</Button>
-                        </Typography>
                     </form>
                 </Container>
             </Box>

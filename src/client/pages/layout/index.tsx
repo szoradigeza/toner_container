@@ -15,6 +15,7 @@ import { createBrowserHistory } from 'history';
 import RightContent from './components/RightContent';
 import { ReactComponent as LogoSvg } from '@/assets/logo/react.svg';
 import styles from './index.module.less';
+import SuspendFallbackLoading from './suspendFallbackLoading';
 import Footer from './components/Footer';
 
 const history = createBrowserHistory();
@@ -174,7 +175,9 @@ const LayoutPage: FC = ({ children }) => {
                     </div>
                 );
             }}>
-            <Outlet />
+            <Suspense fallback={<SuspendFallbackLoading />}>
+                <Outlet />
+            </Suspense>
         </ProLayout>
     );
 };

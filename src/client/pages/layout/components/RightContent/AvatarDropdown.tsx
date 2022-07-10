@@ -68,10 +68,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
 
     const menuHeaderDropdown = (
         <Menu className={'menu'} selectedKeys={[]} onClick={onMenuClick}>
-            <Menu.Item key="logout">
-                <LogoutOutlined />
-                退出登录
-            </Menu.Item>
+            <Menu.Item key="logout">Kilépés</Menu.Item>
         </Menu>
     );
     return (
