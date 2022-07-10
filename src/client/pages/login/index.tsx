@@ -1,76 +1,120 @@
-import React, { FC } from 'react';
-import { Button, Checkbox, Form, Input } from 'antd';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { LoginParams } from '../../models/login';
-// import { loginAsync } from '@/stores/user.store';
-// import { useAppDispatch } from '@/stores';
-import { Location } from 'history';
+import { useFormik } from 'formik';
+import React from 'react';
+import * as Yup from 'yup';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useLogin } from '@/api';
+import { Box, Button, Container, Grid, Link, TextField, Typography } from '@mui/material';
 
-import styles from './index.module.less';
-import { ReactComponent as LogoSvg } from '@/assets/logo/logo.svg';
-
-const initialValues: LoginParams = {
-    username: 'guest',
-    password: 'guest'
-    // remember: true
-};
-
-const LoginForm: FC = () => {
+const Login = () => {
     const loginMutation = useLogin();
     const navigate = useNavigate();
-    const location = useLocation() as Location<{ from: string }>;
+    const location = useLocation();
+    const formik = useFormik({
+        initialValues: {
+            username: 'demo@devias.io',
+            password: 'Password123'
+        },
+        validationSchema: Yup.object({
+            username: Yup.string(),
+            password: Yup.string().max(255).required('Password is required')
+        }),
+        onSubmit: async ({ username, password }) => {
+            console.log(password);
+            const result = await loginMutation.mutateAsync({ username, password });
+            console.log(result.token);
 
-    // const dispatch = useAppDispatch();
+            if (result) {
+                localStorage.setItem('token', result.token);
+                localStorage.setItem('username', result.username);
 
-    const onFinished = async (form: LoginParams) => {
-        const result = await loginMutation.mutateAsync(form);
-        console.log(result.token);
-
-        if (result) {
-            localStorage.setItem('token', result.token);
-            localStorage.setItem('username', result.username);
-
-            const from = location.state?.from || { pathname: '/dashboard' };
-            navigate(from);
+                const from = location.state?.from || { pathname: '/dashboard' };
+                navigate(from);
+            }
         }
-    };
+    });
 
     return (
-        <div className={styles.container}>
-            <div className={styles.top}>
-                <div className={styles.header}>
-                    <Link to="/">
-                        <LogoSvg className={styles.logo} />
-                        <span className={styles.title}>Győr BC</span>
-                    </Link>
-                </div>
-                {/* <div className={styles.desc}>
-                    Vadonatúj technológiai halom(React\Recoil\React Query\React Hooks\Vite)háttérmenedzsment rendszer
-                </div> */}
-            </div>
-            <div className={styles.main}>
-                <Form<LoginParams> onFinish={onFinished} initialValues={initialValues}>
-                    <Form.Item
-                        name="username"
-                        rules={[{ required: true, message: 'kérlek add meg a felhasználónevet!' }]}>
-                        <Input size="large" placeholder="felhasználónév" />
-                    </Form.Item>
-                    <Form.Item name="password" rules={[{ required: true, message: 'Kérem írja be a jelszavát!' }]}>
-                        <Input type="password" size="large" placeholder="Jelszó" />
-                    </Form.Item>
-                    {/* <Form.Item name="remember" valuePropName="checked">
-                        <Checkbox>记住用户</Checkbox>
-                    </Form.Item> */}
-                    <Form.Item>
-                        <Button size="large" className={styles.mainLoginBtn} htmlType="submit" type="primary">
-                            Login
-                        </Button>
-                    </Form.Item>
-                </Form>
-            </div>
-        </div>
+        <>
+            <Box
+                component="main"
+                sx={{
+                    alignItems: 'center',
+                    display: 'flex',
+                    flexGrow: 1,
+                    minHeight: '100%'
+                }}>
+                <Container maxWidth="sm">
+                    <Button component="a">Dashboard</Button>
+                    <form onSubmit={formik.handleSubmit}>
+                        <Box sx={{ my: 3 }}>
+                            <Typography color="textPrimary" variant="h4">
+                                Sign in
+                            </Typography>
+                            <Typography color="textSecondary" gutterBottom variant="body2">
+                                Sign in on the internal platform
+                            </Typography>
+                        </Box>
+                        <Grid container spacing={3}>
+                            <Grid item xs={12} md={6}>
+                                <Button>Login with Facebook</Button>
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <Button>Login with Google</Button>
+                            </Grid>
+                        </Grid>
+                        <Box
+                            sx={{
+                                pb: 1,
+                                pt: 3
+                            }}>
+                            <Typography align="center" color="textSecondary" variant="body1">
+                                or login with email address
+                            </Typography>
+                        </Box>
+                        <TextField
+                            error={Boolean(formik.touched.username && formik.errors.username)}
+                            fullWidth
+                            helperText={formik.touched.username && formik.errors.username}
+                            label="User name"
+                            margin="normal"
+                            name="username"
+                            onBlur={formik.handleBlur}
+                            onChange={formik.handleChange}
+                            value={formik.values.username}
+                            variant="outlined"
+                        />
+                        <TextField
+                            error={Boolean(formik.touched.password && formik.errors.password)}
+                            fullWidth
+                            helperText={formik.touched.password && formik.errors.password}
+                            label="Password"
+                            margin="normal"
+                            name="password"
+                            onBlur={formik.handleBlur}
+                            onChange={formik.handleChange}
+                            type="password"
+                            value={formik.values.password}
+                            variant="outlined"
+                        />
+                        <Box sx={{ py: 2 }}>
+                            <Button
+                                color="primary"
+                                disabled={formik.isSubmitting}
+                                fullWidth
+                                size="large"
+                                type="submit"
+                                variant="contained">
+                                Sign In Now
+                            </Button>
+                        </Box>
+                        <Typography color="textSecondary" variant="body2">
+                            Don&apos;t have an account? <Button>Sign Up</Button>
+                        </Typography>
+                    </form>
+                </Container>
+            </Box>
+        </>
     );
 };
 
-export default LoginForm;
+export default Login;

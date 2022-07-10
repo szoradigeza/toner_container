@@ -133,7 +133,7 @@ def create_database():
     db.create_all()
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://db_felhasznalo:password@localhost:6033/toner'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://db_felhasznalo:password@localhost:6033/app_db'
 
 db.init_app(app)
 

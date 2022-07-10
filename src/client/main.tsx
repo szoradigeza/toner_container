@@ -9,6 +9,9 @@ import App from './App';
 import { ErrorBoundary } from 'react-error-boundary';
 import SuspendFallbackLoading from './pages/layout/suspendFallbackLoading';
 
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import { theme } from './theme';
+
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
@@ -45,7 +48,10 @@ ReactDOM.render(
           )}
         > */}
                 <Suspense fallback={<SuspendFallbackLoading />}>
-                    <App />
+                    <ThemeProvider theme={theme}>
+                        <CssBaseline />
+                        <App />
+                    </ThemeProvider>
                 </Suspense>
                 {/* </ErrorBoundary> */}
             </RecoilRoot>

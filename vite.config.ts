@@ -1,5 +1,7 @@
 import type { UserConfigExport, ConfigEnv } from 'vite';
 import { loadEnv } from 'vite';
+import react from '@vitejs/plugin-react';
+
 import reactRefresh from '@vitejs/plugin-react-refresh';
 import { viteMockServe } from 'vite-plugin-mock';
 import { resolve } from 'path';
@@ -58,7 +60,7 @@ export default ({ command }: { command: string }) => {
         //   },
         // },
         plugins: [
-            reactRefresh(),
+            react(),
             svgr()
 
             // viteMockServe({
