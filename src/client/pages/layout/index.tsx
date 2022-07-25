@@ -76,7 +76,7 @@ const LayoutPage: FC = ({ children }) => {
     const [pathname, setPathname] = useState('/welcome');
     const { device, collapsed, newUser, settings } = user;
     const isMobile = device === 'MOBILE';
-    const { driverStart } = useGuide();
+    // const { driverStart } = useGuide();
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -105,7 +105,7 @@ const LayoutPage: FC = ({ children }) => {
     };
 
     useEffect(() => {
-        newUser && driverStart();
+        // newUser && driverStart();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [newUser]);
 

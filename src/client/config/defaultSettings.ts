@@ -6,7 +6,7 @@ const Settings: LayoutSettings & {
 } = {
     navTheme: 'dark',
     // dawn blue
-    primaryColor: '#1890ff',
+    primaryColor: '#25476A',
     layout: 'mix',
     contentWidth: 'Fluid',
     fixedHeader: false,
