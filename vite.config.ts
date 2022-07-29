@@ -32,6 +32,10 @@ export default ({ command }: { command: string }) => {
                     // /@/xxxx  =>  src/xxx
                     find: /@\//,
                     replacement: pathResolve('src/client') + '/'
+                },
+                {
+                    find: '@components/',
+                    replacement: pathResolve('src/client/components') + '/'
                 }
             ]
         },

@@ -111,6 +111,10 @@
 #     socketio.run(app, host='0.0.0.0', port=5000, debug=True)
 
 
+import time
+import werkzeug
+
+
 from flask import Flask
 from resources.user import *
 from flask_sqlalchemy import SQLAlchemy
@@ -118,10 +122,14 @@ from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from db import db
 import pymysql
+from flask_apscheduler import APScheduler
+
 pymysql.install_as_MySQLdb()
 
 
 app = Flask(__name__)
+scheduler = APScheduler()
+
 app.config['JWT_SECRET_KEY'] = 'jwt-secret-string'
 jwt = JWTManager(app)
 
@@ -135,18 +143,35 @@ def create_database():
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://db_felhasznalo:password@localhost:6033/app_db'
 
+
 db.init_app(app)
 
 
 api.add_resource(UserRegistration, '/users/addnewuser')
 api.add_resource(UserLogin, '/login')
 api.add_resource(CurrentUser, '/current/user')
+api.add_resource(AllUsers, '/debug')
+
+
+def scheduleTask():
+    global times
+    times += 1
+    print(times)
+
+
+times = 0
 
 
 @app.route("/")
 def hello_world():
-    return "<p>Hello, World!</p>"
+    return 'Hello, {0}!'.format(times)
 
 
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=3000)
+scheduler.add_job(id='Scheduled Task', func=scheduleTask,
+                  trigger="interval", seconds=1)
+scheduler.start()
+
+if __name__ == '__main__':
+    print('__main__')
+
+    app.run(host="0.0.0.0")

@@ -144,7 +144,7 @@ export const theme = createTheme({
             900: '#111827'
         },
         action: {
-            active: '#6B7280',
+            active: '#001529',
             focus: 'rgba(55, 65, 81, 0.12)',
             hover: 'rgba(55, 65, 81, 0.04)',
             selected: 'rgba(55, 65, 81, 0.08)',
@@ -157,9 +157,9 @@ export const theme = createTheme({
         },
         divider: '#E6E8F0',
         primary: {
-            main: '#5048E5',
+            main: '#25476a',
             light: '#828DF8',
-            dark: '#3832A0',
+            dark: '#45596A',
             contrastText: '#FFFFFF'
         },
         secondary: {
@@ -230,7 +230,8 @@ export const theme = createTheme({
     ],
     typography: {
         button: {
-            fontWeight: 600
+            fontWeight: 600,
+            boxShadow: '0 0 0 #25476a, 0 0 0 rgb(55 60 67 / 25%)'
         },
         fontFamily:
             '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',

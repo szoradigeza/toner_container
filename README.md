@@ -55,3 +55,25 @@ Your contributions are always welcome! [Click Here to read the guidelines](./con
 ## License
 
 [MIT](./LICENSE)
+
+
+
+
+first page -> 
+    - bal oldali állitható input mezőkkel lehet állitani a skálák nagyságát.
+    - legyen 10 állitható input mező
+    - ZOOM scroll plugin kell
+
+- clear logs nem kell
+- save logs file csv-be import - amit látsz a diagrammon ép
+- Manual mode - kézzel időt meg a dátumot
+- reload vissza automatára a táblát
+
+
+- oszlopok 
+mi az adat ..., két skála érték, szin választás... luxus, 
+
+BC liter/óra - áramlásmérőtöl jön 
+
+R1 liter/ óra 
+

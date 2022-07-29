@@ -51,6 +51,7 @@ class UserRegistration(Resource):
 
 class UserLogin(Resource):
     def post(self):
+        print('here')
         try:
             data = request.get_json(force=True)
             current_user = UserModel.find_by_username(data['username'])
@@ -76,6 +77,7 @@ class UserLogin(Resource):
 
 class CurrentUser(Resource):
     def get(self):
+        print('here')
         return {
             'username': 'decker',
             'role': 'admin'
