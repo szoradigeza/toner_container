@@ -10,7 +10,7 @@ import { result } from 'cypress/types/lodash';
 const history = createBrowserHistory();
 
 console.log('baseurl:', import.meta.env.VITE_BASE_URL);
-const axios = Axios.create({
+export const axios = Axios.create({
     baseURL: import.meta.env.VITE_BASE_URL + '',
     timeout: 1000,
     headers: {
@@ -179,15 +179,15 @@ const useGetList = <T>(key: string, url: string, pagination?: any, filters?: any
     return useQuery(key, () => service());
 };
 
-const useGetOne = <T>(key: string, url: string, params?: any) => {
+const useGetOne = <T>(key: string, url: string, params?: string) => {
     const axios = useAxios();
 
     const service = async () => {
-        const data: T = await axios.get(`${url}`, params);
+        const data: T = await axios.get(`${url}?${params}`);
 
         return data;
     };
-    return useQuery(key, () => service());
+    return useQuery([key, params], () => service());
 };
 
 const useCreate = <T, U>(url: string) => {

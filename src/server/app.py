@@ -114,9 +114,11 @@
 import time
 import werkzeug
 
-
+from threading import Thread
 from flask import Flask
 from resources.user import *
+from resources.statistics import *
+
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
@@ -151,15 +153,23 @@ api.add_resource(UserRegistration, '/users/addnewuser')
 api.add_resource(UserLogin, '/login')
 api.add_resource(CurrentUser, '/current/user')
 api.add_resource(AllUsers, '/debug')
+api.add_resource(GetStatistics, '/statistics')
 
 
 def scheduleTask():
-    global times
-    times += 1
-    print(times)
+    while True:
+        global times
+        time.sleep(5)
+        times += 1
+        print(times)
 
 
 times = 0
+
+FiveSecondThread = Thread(target=scheduleTask)
+FiveSecondThread.daemon = True
+# Start Thread
+FiveSecondThread.start()
 
 
 @app.route("/")
@@ -167,11 +177,6 @@ def hello_world():
     return 'Hello, {0}!'.format(times)
 
 
-scheduler.add_job(id='Scheduled Task', func=scheduleTask,
-                  trigger="interval", seconds=1)
-scheduler.start()
-
-if __name__ == '__main__':
-    print('__main__')
-
-    app.run(host="0.0.0.0")
+# scheduler.add_job(id='Scheduled Task', func=scheduleTask,
+#                   trigger="interval", seconds=1)
+# scheduler.start()

@@ -30,3 +30,8 @@ export const useUpdateProject = () => {
 export const useBatchDeleteProject = () => {
     return useBatch(projectResource + ':batchDelete');
 };
+
+export const useGetStatistics = (params?: string) => {
+    console.log('getStat');
+    return useGetOne('Statistics', '/statistics', params);
+};

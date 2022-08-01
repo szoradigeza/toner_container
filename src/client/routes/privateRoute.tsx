@@ -12,14 +12,11 @@ const PrivateRoute: FC<RouteProps> = ({ children }) => {
 
     const [user, setUser] = useRecoilState(userState);
 
-    console.log('user: ', user);
     const logged = user.username ? true : false;
-    console.log('username: ', user.username, logged);
 
     const { data: currentUser, error } = useGetCurrentUser();
 
     useEffect(() => {
-        console.log('currentUser: ', currentUser);
         setUser({ ...user, username: currentUser?.username || '', logged: true });
     }, [currentUser]);
 
