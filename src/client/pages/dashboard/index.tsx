@@ -74,7 +74,7 @@ const FormRow = () => {
 
 const DashBoardPage: FC = () => {
     const [loading, setLoading] = useState(true);
-    const [queryKey, setQueryKey] = useState();
+    const [queryKey, setQueryKey] = useState(null);
     const myChartRef = useRef(null);
     const { data, error, isLoading, refetch } = useGetStatistics(queryKey);
     const [chartData, setChartData] = useState({
@@ -111,7 +111,7 @@ const DashBoardPage: FC = () => {
         console.log(chartData.labels[max]);
         console.log(min);
         console.log(max);
-        //setQueryKey(`min=${chartData.labels[min]}&&max=${chartData.labels[max]}`);
+        setQueryKey(`min=${chartData.labels[min]}&&max=${chartData.labels[max]}`);
     };
 
     const options: ChartOptions = {
@@ -121,7 +121,6 @@ const DashBoardPage: FC = () => {
             mode: 'index' as const,
             intersect: false
         },
-        stacked: false,
         plugins: {
             title: {
                 display: true,
@@ -129,7 +128,7 @@ const DashBoardPage: FC = () => {
             },
             zoom: {
                 limits: {
-                    x: { min: 'original', max: 'original', minRange: 60 * 1000 }
+                    x: { min: 'original', max: 'original', minRange: 500 }
                 },
                 pan: {
                     enabled: true,
@@ -138,9 +137,6 @@ const DashBoardPage: FC = () => {
                     onPanComplete: startFetch
                 },
                 zoom: {
-                    wheel: {
-                        enabled: true
-                    },
                     drag: {
                         enabled: true
                     },
@@ -178,7 +174,8 @@ const DashBoardPage: FC = () => {
         transitions: {
             zoom: {
                 animation: {
-                    duration: 100
+                    duration: 1000,
+                    easing: 'easeOutCubic'
                 }
             }
         }
@@ -233,6 +230,10 @@ const DashBoardPage: FC = () => {
         // chart.update('none');
     }, [data]);
 
+    const onResetZoom = () => {
+        setQueryKey(null);
+    };
+
     return (
         <>
             <styles.ChartWrapper>
@@ -240,8 +241,8 @@ const DashBoardPage: FC = () => {
                     <Line options={options} data={chartData} ref={myChartRef} />
                 </styles.ChartContainer>
                 <styles.ButtonsContainer>
-                    <styles.Btn sx={{ m: '0.2vw' }} variant="contained">
-                        {'<< Scroll'}
+                    <styles.Btn sx={{ m: '0.2vw' }} variant="contained" onClick={onResetZoom}>
+                        {'Reset Zoom'}
                     </styles.Btn>
                     <styles.Btn sx={{ m: '0.2vw' }} variant="contained">
                         {'< Scroll'}
