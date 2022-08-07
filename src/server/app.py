@@ -161,7 +161,6 @@ def scheduleTask():
         global times
         time.sleep(5)
         times += 1
-        print(times)
 
 
 times = 0

@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect, useRef } from 'react';
 import Overview from './overview';
 import SalePercent from './salePercent';
 import TimeLine from './timeLine';
@@ -16,7 +16,7 @@ import {
     ChartData,
     ChartOptions
 } from 'chart.js';
-import { Line } from 'react-chartjs-2';
+import { Line, getDatasetAtEvent } from 'react-chartjs-2';
 import { faker } from '@faker-js/faker';
 import { Button, Card, CardContent, CardHeader, Checkbox, Grid, Input, TextField } from '@mui/material';
 import * as styles from './dashboard.styles';
@@ -26,7 +26,7 @@ import zoomPlugin from 'chartjs-plugin-zoom';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, zoomPlugin);
 
-export const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+export const labels = [];
 
 // export const data1: ChartData = {
 //     labels,
@@ -54,6 +54,7 @@ export const labels = ['January', 'February', 'March', 'April', 'May', 'June', '
 //         }
 //     ]
 // };
+//
 
 const FormRow = () => {
     return (
@@ -73,55 +74,44 @@ const FormRow = () => {
 
 const DashBoardPage: FC = () => {
     const [loading, setLoading] = useState(true);
-    const [queryKey, setQueryKey] = useState('default');
-    const myChartRef = React.createRef();
+    const [queryKey, setQueryKey] = useState();
+    const myChartRef = useRef(null);
     const { data, error, isLoading, refetch } = useGetStatistics(queryKey);
-    const [data1, setData1] = useState({
+    const [chartData, setChartData] = useState({
         labels,
         datasets: [
             {
-                label: 'Dataset 1',
-                data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
+                label: 'kek',
+                data: [],
                 borderColor: 'rgb(255, 99, 132)',
                 backgroundColor: 'rgba(255, 99, 132, 0.5)',
                 yAxisID: 'y'
             },
             {
-                label: 'Dataset 2',
-                data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
+                label: 'piros',
+                data: [],
                 borderColor: 'rgb(0, 255, 47)',
                 backgroundColor: 'rgba(53, 162, 235, 0.5)',
                 yAxisID: 'y1'
             },
             {
-                label: 'Dataset 3',
-                data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
+                label: 'zold',
+                data: [],
                 borderColor: 'rgb(0, 134, 223)',
                 backgroundColor: 'rgba(53, 162, 235, 0.5)',
                 yAxisID: 'y2'
             }
         ]
     });
-    console.log(data);
-    console.log(myChartRef);
 
-    useEffect(() => {
-        const tmpData1 = { ...data1 };
-        tmpData1.datasets[0].data = [1, 2, 3].map(() => faker.datatype.number({ min: -1000, max: 1000 }));
-
-        setData1(tmpData1);
-        // chart.stop(); // make sure animations are not running
-        // const { min, max } = chart.scales.x;
-        // chart.data.datasets[0].data = [1, 2, 3].map(() => faker.datatype.number({ min: -1000, max: 1000 }));
-        // chart.update('none');
-    }, [data]);
-
+    console.log(chartData);
     const startFetch = ({ chart }) => {
         const { min, max } = chart.scales.x;
-
-        console.log(labels[min]);
-
-        setQueryKey(`min=${labels[min]}&&max=${labels[max]}`);
+        console.log(chartData.labels[min]);
+        console.log(chartData.labels[max]);
+        console.log(min);
+        console.log(max);
+        //setQueryKey(`min=${chartData.labels[min]}&&max=${chartData.labels[max]}`);
     };
 
     const options: ChartOptions = {
@@ -194,34 +184,60 @@ const DashBoardPage: FC = () => {
         }
     };
 
-    const dataObject = [];
+    const transformData = () => {
+        console.log(myChartRef.current);
+        const tmpChartData = JSON.parse(JSON.stringify(chartData));
+        const dataObject: any[] = [];
+        const newLabels: any[] = [];
+        data.map((t: any) => {
+            if (!newLabels.includes(t.date)) newLabels.push(t.date);
+            console.log(dataObject);
+            const dataObj = dataObject.find((obj: any) => {
+                console.log(obj.label);
+                console.log(obj.name);
+                return obj.label === t.name;
+            });
+            console.log(dataObj);
+            if (dataObj) {
+                // console.log('here');
+                dataObj.data.push(t.value);
+                return;
+            }
 
-    const d = data.map((t) => {
+            // console.log('ide');
+            dataObject.push({
+                label: t.name,
+                data: [t.value]
+            });
+        });
         console.log(dataObject);
-        const idxOfObject = dataObject.find((obj) => {
-            console.log(obj.label);
-            console.log(obj.name);
-            return obj.label === t.name;
-        });
-        console.log(idxOfObject);
-        if (idxOfObject) {
-            // console.log('here');
-            idxOfObject.data.push(t.value);
-            return;
-        }
-        // console.log('ide');
-        dataObject.push({
-            label: t.name,
-            data: [t.value]
-        });
-    });
 
-    console.log(dataObject);
+        dataObject.forEach((element) => {
+            const labelIdx = tmpChartData.datasets.findIndex((data: any) => element.label === data.label);
+
+            tmpChartData.datasets[labelIdx].data = element.data;
+        });
+
+        console.log(newLabels);
+        tmpChartData.labels = newLabels;
+
+        console.log(tmpChartData);
+        setChartData({ ...tmpChartData });
+    };
+
+    useEffect(() => {
+        transformData();
+        // chart.stop(); // make sure animations are not running
+        // const { min, max } = chart.scales.x;
+        // chart.data.datasets[0].data = [1, 2, 3].map(() => faker.datatype.number({ min: -1000, max: 1000 }));
+        // chart.update('none');
+    }, [data]);
+
     return (
         <>
             <styles.ChartWrapper>
                 <styles.ChartContainer>
-                    <Line options={options} data={data1} ref={myChartRef} />
+                    <Line options={options} data={chartData} ref={myChartRef} />
                 </styles.ChartContainer>
                 <styles.ButtonsContainer>
                     <styles.Btn sx={{ m: '0.2vw' }} variant="contained">

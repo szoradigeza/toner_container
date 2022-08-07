@@ -183,7 +183,7 @@ const useGetOne = <T>(key: string, url: string, params?: string) => {
     const axios = useAxios();
 
     const service = async () => {
-        const data: T = await axios.get(`${url}?${params}`);
+        const data: T = params ? await axios.get(`${url}?${params}`) : await axios.get(`${url}`);
 
         return data;
     };
