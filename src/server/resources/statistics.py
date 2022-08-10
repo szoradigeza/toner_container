@@ -3,7 +3,10 @@ from models.statistics import StatisticsModel
 from flask import request
 from flask_jwt_extended import (jwt_required)
 from flask import jsonify
+from datetime import datetime
+from datetime import timedelta  
 import random
+
 
 
 
@@ -38,6 +41,10 @@ class GetStatistics(Resource):
                   statistics = (
                 list(map(lambda x: x.to_dict(), StatisticsModel.query.all())))
             else:
+                if (minDate == maxDate):
+                    maxDate = datetime.strptime(maxDate, '%Y-%m-%d %H:%M:%S') + timedelta(days=1) 
+                print(minDate)
+                print(maxDate)
                 statistics =  list(map(lambda x: x.to_dict(), StatisticsModel.query.filter(StatisticsModel.date.between(minDate, maxDate))))
 
             return statistics

@@ -56,14 +56,14 @@ export const labels = [];
 // };
 //
 
-const FormRow = () => {
+const FormRow = (prop: any) => {
     return (
         <React.Fragment>
             <Grid item>
                 <Checkbox {...{ inputProps: { 'aria-label': 'Checkbox demo' } }} defaultChecked />
             </Grid>
             <Grid item>
-                <Input defaultValue="Győr" disabled {...{ inputProps: { 'aria-label': 'Checkbox demo' } }} />
+                <span>{prop.label}</span>
             </Grid>
             <Grid item>
                 <Input defaultValue="Győr" disabled {...{ inputProps: { 'aria-label': 'Checkbox demo' } }} />
@@ -128,7 +128,7 @@ const DashBoardPage: FC = () => {
             },
             zoom: {
                 limits: {
-                    x: { min: 'original', max: 'original', minRange: 500 }
+                    x: { min: 'original', max: 'original' }
                 },
                 pan: {
                     enabled: true,
@@ -272,13 +272,7 @@ const DashBoardPage: FC = () => {
                 <styles.styledCardContent>
                     <Grid container>
                         <Grid container item spacing={1} sx={{ mb: '0.5vw' }}>
-                            <FormRow />
-                        </Grid>
-                        <Grid container item spacing={1} sx={{ mb: '0.5vw' }}>
-                            <FormRow />
-                        </Grid>
-                        <Grid container item spacing={1} sx={{ mb: '0.5vw' }}>
-                            <FormRow />
+                            <FormRow label="asd" />
                         </Grid>
                     </Grid>
                 </styles.styledCardContent>
