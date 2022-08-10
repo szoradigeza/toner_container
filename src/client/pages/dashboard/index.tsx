@@ -56,14 +56,14 @@ export const labels = [];
 // };
 //
 
-const FormRow = () => {
+const FormRow = (prop: any) => {
     return (
         <React.Fragment>
             <Grid item>
                 <Checkbox {...{ inputProps: { 'aria-label': 'Checkbox demo' } }} defaultChecked />
             </Grid>
             <Grid item>
-                <Input defaultValue="Győr" disabled {...{ inputProps: { 'aria-label': 'Checkbox demo' } }} />
+                <span>{prop.label}</span>
             </Grid>
             <Grid item>
                 <Input defaultValue="Győr" disabled {...{ inputProps: { 'aria-label': 'Checkbox demo' } }} />
@@ -83,36 +83,30 @@ const DashBoardPage: FC = () => {
             {
                 label: 'kek',
                 data: [],
-                borderColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(0, 134, 223)',
+
                 backgroundColor: 'rgba(255, 99, 132, 0.5)',
                 yAxisID: 'y'
             },
             {
                 label: 'piros',
                 data: [],
-                borderColor: 'rgb(0, 255, 47)',
+
+                borderColor: 'rgb(255, 99, 132)',
+
                 backgroundColor: 'rgba(53, 162, 235, 0.5)',
                 yAxisID: 'y1'
             },
             {
                 label: 'zold',
                 data: [],
-                borderColor: 'rgb(0, 134, 223)',
+                borderColor: 'rgb(0, 255, 47)',
                 backgroundColor: 'rgba(53, 162, 235, 0.5)',
+
                 yAxisID: 'y2'
             }
         ]
     });
-
-    console.log(chartData);
-    const startFetch = ({ chart }) => {
-        const { min, max } = chart.scales.x;
-        console.log(chartData.labels[min]);
-        console.log(chartData.labels[max]);
-        console.log(min);
-        console.log(max);
-        setQueryKey(`min=${chartData.labels[min]}&&max=${chartData.labels[max]}`);
-    };
 
     const options: ChartOptions = {
         responsive: true,
@@ -127,24 +121,27 @@ const DashBoardPage: FC = () => {
                 text: 'Chart.js Line Chart - Multi Axis'
             },
             zoom: {
+                sensitivity: 3,
+                speed: 10, // would be a percentage,
                 limits: {
-                    x: { min: 'original', max: 'original', minRange: 500 }
+                    x: { min: 'original', max: 'original' }
                 },
                 pan: {
                     enabled: true,
                     mode: 'x',
-                    modifierKey: 'ctrl',
-                    onPanComplete: startFetch
+                    modifierKey: 'ctrl'
                 },
                 zoom: {
+                    wheel: {
+                        enabled: true
+                    },
                     drag: {
                         enabled: true
                     },
                     pinch: {
                         enabled: true
                     },
-                    mode: 'x',
-                    onZoomComplete: startFetch
+                    mode: 'x'
                 }
             }
         },
@@ -231,7 +228,7 @@ const DashBoardPage: FC = () => {
     }, [data]);
 
     const onResetZoom = () => {
-        setQueryKey(null);
+        refetch();
     };
 
     return (
@@ -271,15 +268,11 @@ const DashBoardPage: FC = () => {
                 <styles.styledHeader title="Chart options" />
                 <styles.styledCardContent>
                     <Grid container>
-                        <Grid container item spacing={1} sx={{ mb: '0.5vw' }}>
-                            <FormRow />
-                        </Grid>
-                        <Grid container item spacing={1} sx={{ mb: '0.5vw' }}>
-                            <FormRow />
-                        </Grid>
-                        <Grid container item spacing={1} sx={{ mb: '0.5vw' }}>
-                            <FormRow />
-                        </Grid>
+                        {chartData.datasets.map((dataset) => (
+                            <Grid container item spacing={1} sx={{ mb: '0.5vw' }}>
+                                <FormRow label={dataset.label} />{' '}
+                            </Grid>
+                        ))}
                     </Grid>
                 </styles.styledCardContent>
             </styles.styledCard>

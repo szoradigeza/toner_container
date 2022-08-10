@@ -118,13 +118,21 @@ from threading import Thread
 from flask import Flask
 from resources.user import *
 from resources.statistics import *
-
+from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from db import db
 import pymysql
 from flask_apscheduler import APScheduler
+from models.statistics import * 
+
+
+import random
+
+
+from sqlalchemy.orm import scoped_session, sessionmaker
+
 
 pymysql.install_as_MySQLdb()
 
@@ -144,9 +152,13 @@ def create_database():
 
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://db_felhasznalo:password@localhost:6033/app_db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+
+
 
 
 db.init_app(app)
+
 
 
 api.add_resource(UserRegistration, '/users/addnewuser')
@@ -156,14 +168,41 @@ api.add_resource(AllUsers, '/debug')
 api.add_resource(GetStatistics, '/statistics')
 
 
+
+
+def generateData():
+        new_Statistics1 = StatisticsModel(
+                    name='kek',
+                    value =  random.randint(0, 100),
+                    date = datetime.now()
+                )
+        new_Statistics2 = StatisticsModel(
+                    name='piros',
+                    value =  random.randint(0, 100),
+                    date = datetime.now()
+                )
+        new_Statistics3 = StatisticsModel(
+                    name='zold',
+                    value =  random.randint(0, 100),
+                    date = datetime.now()
+                )
+        new_Statistics1.save_to_db()
+        new_Statistics2.save_to_db()
+        new_Statistics3.save_to_db()
+
+
+
 def scheduleTask():
     while True:
-        global times
-        time.sleep(5)
-        times += 1
+        with app.app_context():
+            time.sleep(60)
+            # generateData() 
+            print('store')
+
+        print('save_data')
+       
 
 
-times = 0
 
 FiveSecondThread = Thread(target=scheduleTask)
 FiveSecondThread.daemon = True
