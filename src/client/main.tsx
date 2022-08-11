@@ -32,7 +32,6 @@ const AxiosProvider = ({ children }: React.PropsWithChildren<unknown>) => {
 
     return <AxiosContext.Provider value={axiosValue}>{children}</AxiosContext.Provider>;
 };
-console.log();
 
 ReactDOM.render(
     // <React.StrictMode>
