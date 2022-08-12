@@ -1,7 +1,4 @@
 import React, { FC, useState, useEffect, useRef } from 'react';
-import Overview from './overview';
-import SalePercent from './salePercent';
-import TimeLine from './timeLine';
 import './index.less';
 
 import {
@@ -13,48 +10,17 @@ import {
     Title,
     Tooltip,
     Legend,
-    ChartData,
     ChartOptions
 } from 'chart.js';
-import { Line, getDatasetAtEvent } from 'react-chartjs-2';
-import { faker } from '@faker-js/faker';
+import { Line } from 'react-chartjs-2';
 import { Button, Card, CardContent, CardHeader, Checkbox, Grid, Input, TextField } from '@mui/material';
 import * as styles from './dashboard.styles';
-import { red } from '@mui/material/colors';
 import { useGetStatistics } from '@/api';
 import zoomPlugin from 'chartjs-plugin-zoom';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, zoomPlugin);
 
 export const labels = [];
-
-// export const data1: ChartData = {
-//     labels,
-//     datasets: [
-//         {
-//             label: 'Dataset 1',
-//             data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-//             borderColor: 'rgb(255, 99, 132)',
-//             backgroundColor: 'rgba(255, 99, 132, 0.5)',
-//             yAxisID: 'y'
-//         },
-//         {
-//             label: 'Dataset 2',
-//             data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-//             borderColor: 'rgb(0, 255, 47)',
-//             backgroundColor: 'rgba(53, 162, 235, 0.5)',
-//             yAxisID: 'y1'
-//         },
-//         {
-//             label: 'Dataset 3',
-//             data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-//             borderColor: 'rgb(0, 134, 223)',
-//             backgroundColor: 'rgba(53, 162, 235, 0.5)',
-//             yAxisID: 'y2'
-//         }
-//     ]
-// };
-//
 
 const FormRow = (prop: any) => {
     return (
@@ -73,10 +39,8 @@ const FormRow = (prop: any) => {
 };
 
 const DashBoardPage: FC = () => {
-    const [loading, setLoading] = useState(true);
-    const [queryKey, setQueryKey] = useState(null);
     const myChartRef = useRef(null);
-    const { data, error, isLoading, refetch } = useGetStatistics(queryKey);
+    const { data, refetch } = useGetStatistics();
     const [chartData, setChartData] = useState({
         labels,
         datasets: [
@@ -104,6 +68,14 @@ const DashBoardPage: FC = () => {
                 backgroundColor: 'rgba(53, 162, 235, 0.5)',
 
                 yAxisID: 'y2'
+            },
+            {
+                label: 'lila',
+                data: [],
+                borderColor: 'rgb(0, 255, 47)',
+                backgroundColor: 'rgba(53, 162, 235, 0.5)',
+
+                yAxisID: 'y3'
             }
         ]
     });
@@ -166,6 +138,14 @@ const DashBoardPage: FC = () => {
                 grid: {
                     drawOnChartArea: false
                 }
+            },
+            y3: {
+                type: 'linear' as const,
+                display: true,
+                position: 'right' as const,
+                grid: {
+                    drawOnChartArea: false
+                }
             }
         },
         transitions: {
@@ -179,32 +159,24 @@ const DashBoardPage: FC = () => {
     };
 
     const transformData = () => {
-        console.log(myChartRef.current);
         const tmpChartData = JSON.parse(JSON.stringify(chartData));
         const dataObject: any[] = [];
         const newLabels: any[] = [];
         data.map((t: any) => {
             if (!newLabels.includes(t.date)) newLabels.push(t.date);
-            console.log(dataObject);
             const dataObj = dataObject.find((obj: any) => {
-                console.log(obj.label);
-                console.log(obj.name);
                 return obj.label === t.name;
             });
-            console.log(dataObj);
             if (dataObj) {
-                // console.log('here');
                 dataObj.data.push(t.value);
                 return;
             }
 
-            // console.log('ide');
             dataObject.push({
                 label: t.name,
                 data: [t.value]
             });
         });
-        console.log(dataObject);
 
         dataObject.forEach((element) => {
             const labelIdx = tmpChartData.datasets.findIndex((data: any) => element.label === data.label);
@@ -212,19 +184,13 @@ const DashBoardPage: FC = () => {
             tmpChartData.datasets[labelIdx].data = element.data;
         });
 
-        console.log(newLabels);
         tmpChartData.labels = newLabels;
 
-        console.log(tmpChartData);
         setChartData({ ...tmpChartData });
     };
 
     useEffect(() => {
         transformData();
-        // chart.stop(); // make sure animations are not running
-        // const { min, max } = chart.scales.x;
-        // chart.data.datasets[0].data = [1, 2, 3].map(() => faker.datatype.number({ min: -1000, max: 1000 }));
-        // chart.update('none');
     }, [data]);
 
     const onResetZoom = () => {
@@ -242,26 +208,11 @@ const DashBoardPage: FC = () => {
                         {'Reset Zoom'}
                     </styles.Btn>
                     <styles.Btn sx={{ m: '0.2vw' }} variant="contained">
-                        {'< Scroll'}
-                    </styles.Btn>
-                    <styles.Btn sx={{ m: '0.2vw' }} variant="contained">
-                        {'<< Zoom Out'}
-                    </styles.Btn>
-                    <styles.Btn sx={{ m: '0.2vw' }} variant="contained">
-                        {'<< Zoom In'}
-                    </styles.Btn>
-                    <styles.Btn sx={{ m: '0.2vw' }} variant="contained">
-                        {'Scroll >'}
-                    </styles.Btn>
-                    <styles.Btn sx={{ m: '0.2vw' }} variant="contained">
-                        {'Scroll >>'}
-                    </styles.Btn>
-                    <styles.Btn sx={{ m: '0.2vw' }} variant="contained">
-                        Clear Logs
-                    </styles.Btn>
-                    <styles.Btn sx={{ m: '0.2vw' }} variant="contained">
                         Save Logs to file
                     </styles.Btn>
+                    <styles.FrToBtn>
+                        <TextField placeholder="Type in here…" />
+                    </styles.FrToBtn>
                 </styles.ButtonsContainer>
             </styles.ChartWrapper>
             <styles.styledCard variant="outlined">

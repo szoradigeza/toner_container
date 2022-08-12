@@ -3,10 +3,16 @@ import { Button, Card, CardContent, CardHeader } from '@mui/material';
 
 export const ButtonsContainer = styled.div`
     text-align: center;
+    display: flex;
 `;
 
 export const Btn = styled(Button)`
     margin: 10px;
+`;
+
+export const FrToBtn = styled.div`
+    position: absolute;
+    right: 0px;
 `;
 
 export const ChartWrapper = styled.div`
