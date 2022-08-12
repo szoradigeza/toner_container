@@ -15,6 +15,7 @@ const history = createBrowserHistory();
 
 const App: React.FC = () => {
     const [user, setUser] = useRecoilState(userState);
+    console.log('asd');
     console.log('test merge');
     return (
         <BrowserRouter>
