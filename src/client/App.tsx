@@ -14,6 +14,7 @@ import { userState } from './stores/user';
 const history = createBrowserHistory();
 
 const App: React.FC = () => {
+    console.log('asd');
     const [user, setUser] = useRecoilState(userState);
     return (
         <BrowserRouter>
